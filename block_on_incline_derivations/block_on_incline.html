@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>block_on_incline</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h1 id="block-on-incline.">Block on incline.</h1>
+<p>We write down and solve the ODE for a block on an (infinite) inclined plane.</p>
+<p>We use distance along the incline as the coordinate <span class="math inline">\(s\)</span>, oriented downward. This makes all tangential forces, accelerations, and velocities into scalars.</p>
+<figure>
+<img src="../img/ForceDiagram.jpg" width="400" alt="" /><figcaption>Force diagram.</figcaption>
+</figure>
+<p><span class="math display">\[|a_{\text{gravity}}|=g\]</span> <span class="math display">\[|a_{\text{gravity-tangential}}|=g \sin \theta\]</span> <span class="math display">\[|a_{\text{normal}}|=g \cos \theta\]</span> <span class="math display">\[|a_{\text{friction}}|= \mu g \cos \theta\]</span></p>
+<p>We take</p>
+<p><span class="math display">\[c=g (\sin \theta-\mu\cos \theta).\]</span></p>
+<h3 id="no-drag">No drag:</h3>
+<p><span class="math display">\[s&#39;&#39;=c\]</span> <span class="math display">\[s(t)=s(0)+v(0)t+ct^2/2\]</span></p>
+<h3 id="proportional-drag">Proportional drag:</h3>
+<p><span class="math display">\[a_{\text{drag}}=-r v\]</span></p>
+<p><span class="math display">\[s&#39;&#39;=c-r s&#39;\]</span></p>
+<p><span class="math display">\[v&#39;=c-rv\]</span></p>
+<p>Then <span class="math inline">\(v_{\text{terminal}}=\frac{c}{r}\)</span> is the terminal velocity, and the velocity converges to it exponentially with rate <span class="math inline">\(r\)</span>:</p>
+<p><span class="math display">\[v(t)=v_{\text{terminal}}+(v(0)-v_{\text{terminal}}) e^{-rt}\]</span></p>
+<p>Set <span class="math inline">\(v_{\text{terminal}}-v(0)=K\)</span>. Then</p>
+<p><span class="math display">\[v(t)=v_{\text{terminal}}-Ke^{-rt}\]</span> And finally:</p>
+<p><span class="math display">\[s(t)=s(0)+v_{\text{terminal}}t+\frac{K}{r}(e^{-rt}-1).\]</span></p>
+<h3 id="quadratic-drag">Quadratic drag:</h3>
+<p><span class="math display">\[a_{\text{drag}}=-r v |v|\]</span></p>
+<p><span class="math display">\[v&#39;=c-r|v| v.\]</span></p>
+<h4 id="special-case.">Special case.</h4>
+<p>We shall start with <span class="math inline">\(c=r=1\)</span>,</p>
+<p><span class="math display">\[v&#39;=1-|v|v.\]</span></p>
+<p>Then the equilibrium velocity is <span class="math inline">\(v|v|=1\)</span> aka <span class="math inline">\(v=1\)</span>.</p>
+<p>Apart from the trivial case <span class="math inline">\(v(0)=1\)</span>, there are 3 regimes depending on <span class="math inline">\(v(0)\)</span>: a) when <span class="math inline">\(v(0)&gt;1\)</span>, b) when <span class="math inline">\(0 \leq v(0)&lt;1\)</span>, c) when <span class="math inline">\(v(0)&lt;0\)</span>.</p>
+<p>When <span class="math inline">\(v\geq 0\)</span> the ODE is <span class="math display">\[v&#39;=1-v^2.\]</span></p>
+<p>When <span class="math inline">\(v(0)=0\)</span> this is the characterizing equation of <span class="math display">\[v(t)=\tanh t.\]</span> (This is also a shifted version of the logistic ODE <span class="math inline">\(u&#39;=u(1-u)\)</span> whose solution with <span class="math inline">\(u&#39;(0)=1\)</span> is the sigmoid; <span class="math inline">\(\tanh\)</span> is the shifted sigmoid.)</p>
+<p>The ODE is time-invariant, which means that for those <span class="math inline">\(v(0)\)</span> which are in the range of <span class="math inline">\(\tanh\)</span> (i.e. between -1 and 1), the solution is <span class="math inline">\(v(t)=\tanh (T+t)\)</span> for (the unique) <span class="math inline">\(T\)</span> such that <span class="math inline">\(\tanh(T)=v(0)\)</span> (in our case <span class="math inline">\(v(0)\geq 0\)</span> we have <span class="math inline">\(T\geq 0\)</span> ). That is</p>
+<p><span class="math display">\[v(t)=\tanh (T+t)=\frac{\tanh T+ \tanh t}{1+ \tanh T \tanh t}=
+\frac{v(0)+ \tanh t}{1+ v(0)\tanh t }\]</span></p>
+<p>Furthermore, the equation <span class="math inline">\(v&#39;=1-v^2\)</span> is invariant under <span class="math inline">\(v\leftrightarrow \frac{1}{v}\)</span>. Thus, for <span class="math inline">\(v(0)\)</span> with <span class="math inline">\(v(0)&gt;1\)</span>, the solutions are of the form</p>
+<p><span class="math display">\[v(t)=\coth (T+t)=
+\frac{1+ \coth T \coth t }{\coth T+ \coth t}=
+\frac{1+ v(0)\coth t }{v(0)+ \coth t}\]</span></p>
+<p>This solves the regimes a and b.</p>
+<p>When <span class="math inline">\(v\leq 0\)</span>, we have</p>
+<p><span class="math display">\[v&#39;=1+v^2\]</span></p>
+<p>which, for <span class="math inline">\(v(0)=0\)</span> is solved by <span class="math display">\[v(t)=\tan(t)\]</span> and in general by</p>
+<p><span class="math display">\[v(t)=\tan(T+t)=\frac{v(0)+ \tan t}{1 - v(0)\tan t }.\]</span></p>
+<p>In our case <span class="math inline">\(v(0)=\tan T&lt;0\)</span> we have <span class="math inline">\(T\leq 0\)</span>.</p>
+<p>Note that in this regime the trajectory will reach <span class="math inline">\(v=0\)</span> at <span class="math inline">\(t=-T\geq 0\)</span> and will switch to <span class="math inline">\(\tanh(t+T)\)</span> for subsequent <span class="math inline">\(t\)</span>. They have the same slope of 1, both have zero second derivative, and only differ in the third derivative.</p>
+<p>The phase portrait for velocity looks like this:</p>
+<figure>
+<img src="../img/BlockPhasePortrait.png" width="500" alt="" /><figcaption>Phase Portrait</figcaption>
+</figure>
+<p><a href="https://colab.research.google.com/drive/1Ag4lDgYzqfQO5Px4chp2JgwMTXzyY-GD?usp=sharing">The colab</a> which produced this image.</p>
+<h4 id="general-case-velocity.">General case, velocity.</h4>
+<p>To get the solutions to <span class="math display">\[v&#39;=c-rv^2\]</span> we need to dilate time and stretch the function. That is, we are looking for a solution in the form <span class="math inline">\(v(t)=Af(Bt)\)</span> where <span class="math inline">\(f&#39;=1-f^2\)</span> or <span class="math inline">\(f^2=1-f&#39;\)</span>. Then <span class="math inline">\(v&#39;=c-rv^2\)</span> translates to</p>
+<p><span class="math display">\[ABf&#39;=c-r(A^2f^2)=c-r(A^2(1-f&#39;))\]</span></p>
+<p><span class="math display">\[AB=rA^2, \quad c=rA^2\]</span></p>
+<p><span class="math display">\[A=\sqrt{\frac{c}{r}}, \quad B=\sqrt{cr}.\]</span></p>
+<p>The terminal velocity is now <span class="math inline">\(V=\sqrt{\frac{c}{r}}\)</span>, so <span class="math inline">\(A=V\)</span> and <span class="math inline">\(B=rV\)</span>.</p>
+<h5 id="non-negative-initial-velocity.">Non-negative initial velocity.</h5>
+<p>If <span class="math inline">\(v(0)\geq V\)</span> the solution is <span class="math display">\[v(t)=V \coth(r V (t+T))=V\frac{V+v(0)\coth(rVt)}{v(0)+V\coth(rVt)}\]</span> <span class="math display">\[=V\frac{\tanh (rV t)+\frac{v(0)}{V}}{\frac{v(0)}{V} \tanh(rVt)+1} \]</span></p>
+<p>Here <span class="math inline">\(T=\frac{1}{rV}\text{arcoth} (\frac{v(0)}{V})&gt;0\)</span>. (There is a singularity in the past, at <span class="math inline">\(t=-T\)</span>).</p>
+<p>If <span class="math inline">\(V&gt;v(0)\geq 0\)</span> the solution is <span class="math display">\[v(t)=V \tanh(r V (t+T))=V\frac{v(0)+V\tanh(rVt)}{V+v(0)\tanh(rVt)}\]</span> <span class="math display">\[=V\frac{\frac{v(0)}{V}+\tanh(rVt)}{1+\frac{v(0)}{V}\tanh(rVt)}.\]</span></p>
+<p>Here <span class="math inline">\(T=\frac{1}{rV}\text{artanh} (\frac{v(0)}{V})&gt;0\)</span>. (The solution has crossed zero in the past, at <span class="math inline">\(t=-T\)</span>).</p>
+<p>The formulas coincide, and, in fact give <span class="math inline">\(v(t)=V\)</span> when <span class="math inline">\(v(0)=V\)</span>.</p>
+<h5 id="negative-initial-velocity.">Negative initial velocity.</h5>
+<p>If <span class="math inline">\(v(0)&lt;0\)</span> then initially the solution is</p>
+<p><span class="math display">\[v(t)=V\tan(rV(t+T))=V \frac{v(0)+V\tan(rVt)}{V-v(0)\tan(rVt)}\]</span> <span class="math display">\[=V\frac{\frac{v(0)}{V}+\tan(rVt)}{1-\frac{v(0)}{V}\tan(rVt)}.\]</span></p>
+<p>Here <span class="math inline">\(T=\frac{1}{rV}\arctan (\frac{v(0)}{V})&lt;0\)</span>. Then, after <span class="math inline">\(t=-T\)</span>:</p>
+<p><span class="math display">\[v(t)=V\tanh(rV(t+T))=
+V\frac{\tanh(\arctan \frac{v(0)}{V})+\tanh(rVt)}
+{1+\tanh(\arctan \frac{v(0)}{V})\tanh(rVt)}.\]</span></p>
+<h4 id="general-case-position.">General case, position.</h4>
+<p>The distance travelled is the integral of velocity.</p>
+<h5 id="non-negative-initial-velocity.-1">Non-negative initial velocity.</h5>
+<p>For the case <span class="math inline">\(v(0) \geq V\)</span></p>
+<p><span class="math display">\[s(t)-s(0)=\int_0^t v(\tau) \, d\tau=\int_0^t V \coth(r V (\tau+T)) \, d\tau\]</span></p>
+<p>Recalling <span class="math inline">\(rV=B\)</span>, <span class="math inline">\(u=B(\tau+T)\)</span> so <span class="math inline">\(du=Bd\tau\)</span>.</p>
+<p><span class="math display">\[s(t)-s(0)=\frac{1}{r}\int_{BT}^{B(t+T)} \coth u \, du=\]</span> <span class="math display">\[\frac{1}{r} \ln \frac{\sinh B(t+T)}{\sinh BT}=
+\frac{1}{r} \ln(\cosh Bt + \sinh Bt\coth BT)=\]</span> <span class="math display">\[=\frac{1}{r} \ln(\cosh rVt + \frac{v(0)}{V}\sinh rVt)\]</span></p>
+<p>Similarly, for the case <span class="math inline">\(V&gt;v(0)\geq 0\)</span></p>
+<p><span class="math display">\[s(t)-s(0)=\int_0^t v(\tau) \, d\tau=\int_0^t V \tanh(r V (\tau+T)) \, d\tau\]</span></p>
+<p>Again, <span class="math inline">\(rV=B\)</span>, <span class="math inline">\(u=B(\tau+T)\)</span> so <span class="math inline">\(du=Bd\tau\)</span>.</p>
+<p><span class="math display">\[s(t)-s(0)=\frac{1}{r}\int_{BT}^{B(t+T)} \tanh u \, du=\]</span> <span class="math display">\[\frac{1}{r} \ln \frac{\cosh B(t+T)}{\cosh BT}=\frac{1}{r} \ln(\cosh Bt + \sinh Bt\tanh BT)\]</span> <span class="math display">\[=\frac{1}{r} \ln(\cosh rVt + \frac{v(0)}{V} \sinh rVt)\]</span></p>
+<p>Note that these formulas coincide. In fact this holds also when <span class="math inline">\(V=v(0)\)</span> where it becomes <span class="math inline">\(\frac{1}{r}rVt=Vt\)</span>, as expected.</p>
+<h5 id="negative-initial-velocity.-1">Negative initial velocity.</h5>
+<p>For <span class="math inline">\(v(0)&lt;0\)</span> there are two regimes, before switching direction and after. Initially, when <span class="math inline">\(t&lt;-T\)</span> (and hence <span class="math inline">\(Bt&lt;\frac{\pi}{2}\)</span>)</p>
+<p><span class="math display">\[s(t)-s(0)=\int_0^t v(\tau) \, d\tau=\int_0^t V \tan(r V (\tau+T)) \, d\tau\]</span></p>
+<p><span class="math display">\[s(t)-s(0)=\frac{1}{r}\int_{BT}^{B(t+T)} \tan u \, du=\]</span> <span class="math display">\[=-\frac{1}{r} \ln \frac{\cos B(t+T)}{\cos BT}=-\frac{1}{r} \ln(\cos Bt - \sin Bt\tan BT)\]</span> <span class="math display">\[=-\frac{1}{r} \ln(\cos rVt - \frac{v(0)}{V}\sin rVt)\]</span></p>
+<p>Note that at <span class="math inline">\(t=-T\)</span></p>
+<p><span class="math display">\[s(-T)-s(0)=\frac{1}{r}\ln(\cos BT)=
+\frac{1}{r}\ln (\cos(\arctan\frac{v(0)}{V}))=\]</span> <span class="math display">\[=-\frac{1}{2r}\ln (1+\left(\frac{v(0)}{V}\right)^2).\]</span></p>
+<p>Then, when <span class="math inline">\(t&gt;-T\)</span>,</p>
+<p><span class="math display">\[s(t)-s(0)=
+-\frac{1}{2r}\ln (1+\left(\frac{v(0)}{V}\right)^2)+\frac{1}{r} \ln(\cosh rV(t+T))\]</span> <span class="math display">\[-\frac{1}{2r}\ln (1+\left(\frac{v(0)}{V}\right)^2)
++\frac{1}{r} \ln(\cosh (rVt+\arctan \frac{v(0)}{V})).\]</span></p>
+</body>
+</html>
