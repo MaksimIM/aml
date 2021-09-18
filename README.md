@@ -2,8 +2,8 @@
 
 AML is a package for learning independent relations from data. Here independence 
 is understood in the sense of not following from each other, and is formalized
-mathematically in several ways, see [[1]](#1).
-AML can be used in aid of transfer learning as described in [[1]](#1), 
+mathematically in several ways, see [[1]](#[1]).
+AML can be used in aid of transfer learning as described in [[1]](#[1]), 
 but is general in scope.
 
 
