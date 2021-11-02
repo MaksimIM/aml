@@ -71,8 +71,7 @@ class AML:
         return on_means, off_means
 
     def add_g(self, g_hidden_size, g_num_layers, g_lr, do_syz, device, logfile):
-        # gh = [g_hidden_size*(4**min(self.k(),3))]*g_num_layers
-        # TODO: why 6?
+        # 2**6 = 64, g_hidden_size default is 4
         gh = [g_hidden_size * (2 ** min(self.number_of_relations(), 6))] * g_num_layers
         if self.new_g_nn is not None:
             self.gj_nns.append(self.new_g_nn)
@@ -126,9 +125,7 @@ class AML:
         return loss.mean()
 
     def g_on_loss(self, on_data, on_out, off_out):
-        """"Moo """
-        # Compute v_k vector for current g_k, *do not detach*.
-        # TODO: What is v_k?
+        # Compute v_k vector for current g_k, *do not detach*
         self.new_g_optim.zero_grad()
         on_data_with_grad = on_data.clone().detach().requires_grad_(True)
         g_out = self.new_g_nn(on_data_with_grad)
